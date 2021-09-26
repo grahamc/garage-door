@@ -2,7 +2,11 @@
 
 set -eux
 
-gpio=19
+if [ "${1:-}" == "outer" ]; then
+  gpio=13
+else
+  gpio=19
+fi
 
 device=$((458 + "$gpio"))
 gpiodir="/sys/class/gpio/gpio${device}"
