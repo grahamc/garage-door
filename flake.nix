@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/nixos/nixpkgs/0.1.tar.gz";
+    fh.url = "github:DeterminateSystems/fh";
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
   };
 
@@ -26,6 +27,9 @@
       system = "aarch64-linux";
       modules = [
         ./configuration.nix
+        {
+            environment.systemPackages = [ inputs.fh.packages.aarch64-linux.default ];
+        }
       ];
     };
   };
