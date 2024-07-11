@@ -6,7 +6,7 @@
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
   };
 
-  outputs = { nixpkgs, ... }: {
+  outputs = { nixpkgs, ... } @ inputs : {
     schemas = inputs.flake-schemas.schemas;
 
     nixosConfigurations.turner = nixpkgs.lib.nixosSystem {
