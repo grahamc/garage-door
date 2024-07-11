@@ -74,7 +74,7 @@
           craneLib.buildPackage {
             pname = "garage-door-opener-server";
             inherit version;
-            src = "${self}/garage-door-opener-server";
+            src = ./garage-door-opener-server;
 
             doCheck = true;
 
@@ -128,7 +128,7 @@
             systemd.services."garage-door-webserver" = {
                 wantedBy = ["multi-user.target"];
                 description = "Enable the garage door webserver.";
-                script = ''${self.packages.aarch64-linux.server} --ip 0.0.0.0 --port 8080'';
+                script = ''${self.packages.aarch64-linux.server}/bin/garage-door-opener-server --ip 0.0.0.0 --port 8080'';
             };
           }
         ];
