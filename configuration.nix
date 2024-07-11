@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./garage-door.nix
     ];
@@ -34,7 +35,7 @@
 
   environment.systemPackages = with pkgs; [
     libgpiod
-  #   wget vim
+    #   wget vim
   ];
 
   # Enable the OpenSSH daemon.
