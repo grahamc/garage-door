@@ -120,7 +120,10 @@
           ./configuration.nix
           inputs.nix.nixosModules.default
           {
-            environment.systemPackages = [ inputs.fh.packages.aarch64-linux.default ];
+            environment.systemPackages = [
+                inputs.fh.packages.aarch64-linux.default
+                nixpkgs.legacyPackages.aarch64-linux.raspberrypi-eeprom
+            ];
 
             systemd.services."garage-door-webserver" = {
                 wantedBy = ["multi-user.target"];
