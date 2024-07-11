@@ -7,4 +7,3 @@ else
   echo "running inner door"
   systemctl start garage-door@inner.service
 fi
-
