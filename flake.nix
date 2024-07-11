@@ -125,6 +125,8 @@
                 nixpkgs.legacyPackages.aarch64-linux.raspberrypi-eeprom
             ];
 
+            networking.firewall.allowedTCPPorts = [ 8080 ];
+
             systemd.services."garage-door-webserver" = {
                 wantedBy = ["multi-user.target"];
                 description = "Enable the garage door webserver.";
