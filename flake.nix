@@ -5,6 +5,7 @@
     nixpkgs.url = "https://flakehub.com/f/nixos/nixpkgs/0.1.tar.gz";
     fh.url = "github:DeterminateSystems/fh";
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
+    nix.url = "https://flakehub.com/f/DeterminateSystems/nix/2.0";
   };
 
   outputs = { nixpkgs, ... } @ inputs: {
@@ -27,6 +28,7 @@
       system = "aarch64-linux";
       modules = [
         ./configuration.nix
+        inputs.nix.nixosModules.default
         {
             environment.systemPackages = [ inputs.fh.packages.aarch64-linux.default ];
         }
