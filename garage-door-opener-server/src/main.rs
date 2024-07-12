@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use clap::Parser;
+use serde::Serialize;
 use tokio::process::Command;
 use tokio::sync::Mutex;
 use tokio::time::{sleep, Duration};
@@ -78,11 +79,18 @@ async fn get_door(path: web::Path<String>) -> impl Responder {
             .body("Invalid side parameter. Must be 'left' or 'right'.");
     }
 
-    HttpResponse::Ok().body("unknown")
+    HttpResponse::Ok().json(StatusResponse {
+        status: "unknown".to_string(),
+    })
 }
 
 struct AppState {
     rate_limiter: Arc<Mutex<RateLimiter>>,
+}
+
+#[derive(Serialize)]
+struct StatusResponse {
+    status: String,
 }
 
 #[derive(Parser, Debug)]
