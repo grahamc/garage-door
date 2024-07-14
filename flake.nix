@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/nixos/nixpkgs/0.1.tar.gz";
-    fh.url = "github:DeterminateSystems/fh";
+    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
     nix.url = "https://flakehub.com/f/DeterminateSystems/nix/2.0";
 
