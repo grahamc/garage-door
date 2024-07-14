@@ -130,6 +130,7 @@
             systemd.services."garage-door-webserver" = {
                 wantedBy = ["multi-user.target"];
                 description = "Enable the garage door webserver.";
+                path = [ pkgs.libgpiod ];
                 script = ''${self.packages.aarch64-linux.server}/bin/garage-door-opener-server --ip 0.0.0.0 --port 8080'';
             };
           }
