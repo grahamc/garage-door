@@ -75,13 +75,54 @@ async fn post_door(path: web::Path<String>, data: web::Data<AppState>) -> impl R
 async fn get_door(path: web::Path<String>) -> impl Responder {
     let side = path.into_inner();
     if side != "left" && side != "right" {
-        return HttpResponse::BadRequest()
-            .body("Invalid side parameter. Must be 'left' or 'right'.");
+        return HttpResponse::BadRequest().json(StatusResponse {
+            status: "Invalid side parameter. Must be 'left' or 'right'.".to_string(),
+        });
     }
 
-    HttpResponse::Ok().json(StatusResponse {
-        status: "unknown".to_string(),
-    })
+    if side == "right" {
+        return HttpResponse::Ok().json(StatusResponse {
+            status: "unknown".to_string(),
+        });
+    }
+
+    let output = Command::new("gpioget")
+        .arg("--chip")
+        .arg("gpiochip0")
+        .arg("--bias")
+        .arg("pull-up")
+        .arg("--active-low")
+        .arg("--strict")
+        .arg("--numeric")
+        .arg("26") // pin 26, gpio 26 for pimeroni automation hat
+        .output()
+        .await;
+
+    match output {
+        Ok(output) if output.status.success() => {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let status = match stdout.trim() {
+                "0" => "open",
+                "1" => "closed",
+                _ => "unknown",
+            };
+            HttpResponse::Ok().json(StatusResponse {
+                status: status.to_string(),
+            })
+        }
+        Ok(output) => {
+            println!("Command exited with non-zero status: {:?}", output);
+            HttpResponse::InternalServerError().json(StatusResponse {
+                status: "Failed to get door status.".to_string(),
+            })
+        }
+        Err(err) => {
+            println!("Failed to execute command: {}", err);
+            HttpResponse::InternalServerError().json(StatusResponse {
+                status: "Failed to get door status.".to_string(),
+            })
+        }
+    }
 }
 
 struct AppState {
