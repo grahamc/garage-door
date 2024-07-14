@@ -119,7 +119,7 @@
         modules = [
           ./configuration.nix
           inputs.nix.nixosModules.default
-          {
+          ({ pkgs, ... }: {
             environment.systemPackages = [
                 inputs.fh.packages.aarch64-linux.default
                 nixpkgs.legacyPackages.aarch64-linux.raspberrypi-eeprom
@@ -133,7 +133,7 @@
                 path = [ pkgs.libgpiod ];
                 script = ''${self.packages.aarch64-linux.server}/bin/garage-door-opener-server --ip 0.0.0.0 --port 8080'';
             };
-          }
+          })
         ];
       };
     };
