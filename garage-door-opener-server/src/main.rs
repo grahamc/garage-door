@@ -94,7 +94,7 @@ async fn get_door(path: web::Path<String>) -> impl Responder {
         .arg("--active-low")
         .arg("--strict")
         .arg("--numeric")
-        .arg("26") // pin 26, gpio 26 for pimeroni automation hat
+        .arg("20") // pin 20, gpio 20 for pimeroni automation hat input #2. #1 seems dead?
         .output()
         .await;
 
